@@ -22,15 +22,10 @@
         <ion-icon name="people" size="large"></ion-icon>
     </header>
     <main>
-        <div class="message">
-            <p>(09:22:28)</p>
-            <span><b>João</b> para <b>Todos</b>:</span>
-            <p>Bom dia</p>
-        </div>
     </main>
     <footer>
-        <p>Escreva aqui...</p>
-        <ion-icon name="paper-plane-outline"></ion-icon>
+            <input type="textarea" name="message" data-identifier="message" id="message_area" placeholder="Escreva aqui...">
+            <ion-icon name="paper-plane-outline" data-identifier="send-message" onclick="enviarMensagem()" role="img" class="md hydrated" aria-label="paper plane outline"></ion-icon>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

@@ -1,5 +1,6 @@
 let nameUser;
 let preencheuPrimeirasMensagens = false;
+let primeirasMensagens = [];
 cadastrarName();
 
 function cadastrarName() {
@@ -28,6 +29,7 @@ function manterConexao() {
     requisicaoConectado.catch(tratarErro);
 }
 setInterval(manterConexao, 5 * 1000);
+buscarMensagens();
 setInterval(buscarMensagens, 3 * 1000);
 
 function buscarMensagens() {
@@ -42,9 +44,9 @@ function buscarMensagens() {
 
 function processarMensagens(mensagens) {
     if (!preencheuPrimeirasMensagens) {
-        let primeirasMensagens = mensagens.data;
+        primeirasMensagens = mensagens.data;
     } else {
-        primeirasMensagens = mensagens;
+        primeirasMensagens = mensagens.data;
     }
     let chat = document.querySelector('main');
     preencheuPrimeirasMensagens = true;
@@ -54,13 +56,25 @@ function processarMensagens(mensagens) {
         let text = mensagens.data[index].text;
         let type = mensagens.data[index].type;
         let time = mensagens.data[index].time;
-        chat.innerHTML += `
-        <div class="${type}">
+        if (type == "private_message") {
+            if (to == nameUser.name) {
+                chat.innerHTML += `
+        <div class="${type}" data-identifier="message">
             <p>(${time})</p>
             <span><b>${from}</b> para <b>${to}</b>:</span>
             <p>${text}</p>
         </div>
         `;
+            }
+        } else {
+            chat.innerHTML += `
+        <div class="${type}" data-identifier="message">
+            <p>(${time})</p>
+            <span><b>${from}</b> para <b>${to}</b>:</span>
+            <p>${text}</p>
+        </div>
+        `;
+        }
     }
     let element = document.querySelector('main div:last-child');
     element.scrollIntoView();
@@ -68,13 +82,30 @@ function processarMensagens(mensagens) {
 
 function atualizarMensagens(mensagensNovas) {
     let difference = mensagensNovas.data.filter(x => !primeirasMensagens.includes(x));
+    difference = { data: difference };
     if (difference != []) {
         processarMensagens(difference);
     }
 }
 
-
 function enviarMensagem() {
-    let mensagem = { from: `${nameUser}`, to: 'Todos', text: `${message}`, type: 'message' }
-    let envioMensagem = axios.post('https://mock-api.driven.com.br/api/v4/uol/messages', mensagem);
+    let message = message_area.value;
+    if (message === "") {
+        return;
+    }
+    let obj = { from: nameUser.name, to: "Todos", text: message, type: 'message' };
+    let promisse = axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", obj);
+
+    message_area.value = "";
+
+    promisse.then(buscarMensagens);
+    promisse.catch(tratarErro);
 }
+
+let message_area = document.querySelector("#message_area");
+
+message_area.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+        enviarMensagem();
+    }
+})

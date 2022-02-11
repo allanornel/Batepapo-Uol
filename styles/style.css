@@ -50,6 +50,7 @@ main div {
     display: flex;
     margin: 4px 0;
     padding: 10px;
+    word-break: break-word;
 }
 
 .message {
@@ -68,6 +69,10 @@ main div p:last-child {
 
 .status {
     background-color: #DCDCDC;
+}
+
+.private_message {
+    background-color: #FFDEDE;
 }
 
 footer {
@@ -90,4 +95,28 @@ footer * {
 
 footer ion-icon {
     font-size: 30px;
+}
+
+footer input{
+    width: 80%;
+    height: 30px;
+    font-weight: 400;
+    font-size: 18px;
+    font-style: italic;
+    border: none;
+}
+
+footer input::placeholder{
+    color: black;
+}
+
+footer input:-ms-input-placeholder{
+    color: black;
+}
+footer input::-ms-input-placeholder{
+    color: black;
+}
+
+footer input:focus{
+    outline: none;
 }
