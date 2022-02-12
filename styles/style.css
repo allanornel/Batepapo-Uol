@@ -97,7 +97,7 @@ footer ion-icon {
     font-size: 30px;
 }
 
-footer input{
+footer input {
     width: 80%;
     height: 30px;
     font-weight: 400;
@@ -106,17 +106,18 @@ footer input{
     border: none;
 }
 
-footer input::placeholder{
+footer input::placeholder {
     color: black;
 }
 
-footer input:-ms-input-placeholder{
-    color: black;
-}
-footer input::-ms-input-placeholder{
+footer input:-ms-input-placeholder {
     color: black;
 }
 
-footer input:focus{
+footer input::-ms-input-placeholder {
+    color: black;
+}
+
+footer input:focus {
     outline: none;
 }
